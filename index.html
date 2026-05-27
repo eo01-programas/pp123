@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Preparado Movil</title>
+    <link rel="stylesheet" href="css/preparado-mobile.css">
+</head>
+<body>
+    <main class="mobile-shell">
+        <section class="mobile-card">
+            <form id="preparado-mobile-search-form" class="stack-gap" autocomplete="off">
+                <label class="field-label" for="preparado-mobile-search">OP-PTDA</label>
+                <div class="search-row">
+                    <input
+                        id="preparado-mobile-search"
+                        class="mobile-input"
+                        type="tel"
+                        inputmode="tel"
+                        maxlength="18">
+                    <button type="submit" class="primary-button mobile-icon-button" aria-label="Buscar" title="Buscar">
+                        <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                            <path d="M10.75 4a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5Zm-8.25 6.75a8.25 8.25 0 1 1 14.59 5.28l4.19 4.19a.75.75 0 1 1-1.06 1.06l-4.19-4.19A8.25 8.25 0 0 1 2.5 10.75Z"></path>
+                        </svg>
+                    </button>
+                    <button type="button" id="preparado-mobile-scan-button" class="primary-button mobile-icon-button mobile-scan-button" aria-label="Escanear QR" title="Escanear QR">
+                        <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                            <path d="M4 4h6v6H4V4Zm1.5 1.5v3h3v-3h-3ZM14 4h6v6h-6V4Zm1.5 1.5v3h3v-3h-3ZM4 14h6v6H4v-6Zm1.5 1.5v3h3v-3h-3ZM14 14h2.5v1.5H15.5v1H14V14Zm4 0h2v3.5h-1.5v-2H18V14Zm-2.5 4H17v2h-3v-1.5h1.5V18Zm3.5 0h1.5v2H19v-2Z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+            <p class="status-line" id="preparado-mobile-sync-status">Cargando datos...</p>
+        </section>
+
+        <section class="mobile-card">
+            <div class="section-head">
+                <div>
+                    <h2>Resultados</h2>
+                    <p class="section-copy" id="preparado-mobile-result-summary">Ingresa una OP-PTDA para comenzar.</p>
+                </div>
+                <button type="button" id="preparado-mobile-select-all" class="ghost-button section-action-button hidden">Seleccionar todo</button>
+            </div>
+            <div id="preparado-mobile-results" class="result-list">
+                <div class="empty-state">Ingresa una OP-PTDA para ver coincidencias exactas.</div>
+            </div>
+        </section>
+
+        <section class="mobile-card hidden" id="preparado-mobile-form-card">
+            <div class="section-head section-head-form">
+                <h2>Registro</h2>
+                <label class="inline-field-group inline-field-group-turno" for="preparado-mobile-turno">
+                    <span class="field-label">Turno</span>
+                    <input id="preparado-mobile-turno" class="mobile-input inline-turno-input" type="text" readonly>
+                </label>
+            </div>
+            <p class="section-copy" id="preparado-mobile-selection-summary"></p>
+
+            <div class="form-grid">
+                <label class="field-group">
+                    <span class="field-label">Equipo</span>
+                    <input
+                        id="preparado-mobile-equipo"
+                        class="mobile-input"
+                        type="text"
+                        placeholder="Ej: A-B"
+                        autocomplete="off">
+                </label>
+                <label class="field-group">
+                    <span class="field-label">Tipo</span>
+                    <select id="preparado-mobile-tipo" class="mobile-select">
+                        <option value="">Seleccionar...</option>
+                        <option value="PLEGADO">PLEGADO</option>
+                        <option value="DOBLADO+COSIDO">DOBLADO+COSIDO</option>
+                        <option value="VOLTEADO ABIERTO">VOLTEADO ABIERTO</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="mobile-action-row">
+                <button type="button" id="preparado-mobile-inicio" class="primary-button preparado-inicio-button">INICIO</button>
+                <button type="button" id="preparado-mobile-fin" class="primary-button preparado-fin-button">FIN</button>
+            </div>
+        </section>
+    </main>
+
+    <div id="preparado-mobile-toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/qr-scanner.js"></script>
+    <script src="js/preparado-mobile.js"></script>
+</body>
+</html>
