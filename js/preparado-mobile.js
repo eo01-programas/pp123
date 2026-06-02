@@ -419,25 +419,19 @@
         }
     }
 
-    // --- Responsable dinámico según turno ---
+    // --- Responsable (siempre todas las opciones) ---
 
-    function setupResponsable(turno) {
+    function setupResponsable() {
         const els = getElements();
         if (!els.responsableSelect) return;
-
-        if (turno === '1T') {
-            els.responsableSelect.innerHTML = '<option value="Molero Jacinto">Molero Jacinto</option>';
-            els.responsableSelect.value = 'Molero Jacinto';
-            els.responsableSelect.disabled = true;
-        } else {
-            els.responsableSelect.innerHTML = `
-                <option value="">Seleccionar...</option>
-                <option value="Porras Quinto">Porras Quinto</option>
-                <option value="Carrion">Carrion</option>
-                <option value="Otro">Otro</option>
-            `;
-            els.responsableSelect.disabled = false;
-        }
+        els.responsableSelect.innerHTML = `
+            <option value="">Seleccionar...</option>
+            <option value="Molero Jacinto">Molero Jacinto</option>
+            <option value="Porras Quinto">Porras Quinto</option>
+            <option value="Carrion">Carrion</option>
+            <option value="Otro">Otro</option>
+        `;
+        els.responsableSelect.disabled = false;
     }
 
     // --- Keyboard dismiss ---
@@ -496,7 +490,7 @@
         if (els.scanButton) els.scanButton.addEventListener('click', handleScan);
         const turno = calculateTurno();
         els.turnoInput.value = turno;
-        setupResponsable(turno);
+        setupResponsable();
     }
 
     // --- Carga de datos ---
