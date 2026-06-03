@@ -1,4 +1,4 @@
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyxEnJUUe7COeXHN89panc3SwKU5Nz3cmVeLfABvqmvptNrUzO58WTe8QZhnV0YwhGE/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyg8b4_H-hQmZgYl-XJ9CirbYJuj93GnTZ7-Sx572yLTDRlEskhEUdaLRWdCR-WlyME/exec';
 const SHEET_ID = '1xyHNMesThJLbYFSizH6xNjJcj2F_gy9lnlCDqwejFN0';
 const DATA_SHEET_NAME = 'Hoja 1';
 
@@ -124,6 +124,15 @@ const MASTER_HEADERS = [
     'motivo_rechazo_4',
     'turno_rechazo_4',
     'supervisor_rechazo_4',
+    'motivo_rechazo_5',
+    'supervisor_rechazo_5',
+    'turno_rechazo_5',
+    'motivo_rechazo_6',
+    'supervisor_rechazo_6',
+    'turno_rechazo_6',
+    'motivo_rechazo_7',
+    'supervisor_rechazo_7',
+    'turno_rechazo_7',
     'observacion_calidad',
     'cantidad_rechazos',
     'tipo_aprobacion',
@@ -134,6 +143,9 @@ const MASTER_HEADERS = [
     'fecha_rechazo_2',
     'fecha_rechazo_3',
     'fecha_rechazo_4',
+    'fecha_rechazo_5',
+    'fecha_rechazo_6',
+    'fecha_rechazo_7',
     'fecha_aprobacion',
     'embalaje_p',
     'embalaje_fecha',
