@@ -258,21 +258,28 @@
         if (els.observacionesInput) els.observacionesInput.value = '';
     }
 
+    // Valor común (último del pase) entre varios registros; '' si difieren o no hay ninguno.
+    function commonLastPassValue(records, fieldName) {
+        const values = records.map((r) => lastPassValue(r, fieldName));
+        const unique = Array.from(new Set(values));
+        return unique.length === 1 ? unique[0] : '';
+    }
+
     function populateForm() {
         const els = getElements();
-        const selectedIds = Array.from(state.selectedIds);
+        const openRecords = Array.from(state.selectedIds)
+            .map((id) => findRecordById(id))
+            .filter((r) => r && hasOpenPass(r));
 
-        // Solo pre-cargamos cuando hay exactamente un registro con pase abierto.
-        if (selectedIds.length === 1) {
-            const record = findRecordById(selectedIds[0]);
-            if (record && hasOpenPass(record)) {
-                if (els.responsableSelect) els.responsableSelect.value = lastPassValue(record, 'preparado_supervisor');
-                if (els.equipoInput) els.equipoInput.value = lastPassValue(record, 'preparado_equipo');
-                if (els.tipoSelect) els.tipoSelect.value = lastPassValue(record, 'preparado_tipo');
-                if (els.observacionesInput) els.observacionesInput.value = lastPassValue(record, 'preparado_observaciones');
-                if (els.turnoInput) els.turnoInput.value = lastPassValue(record, 'preparado_turno') || calculateTurno();
-                return;
-            }
+        // Pre-cargamos con el valor común de los registros con pase abierto.
+        // Si son varios y comparten los datos (mismo dato), se muestran; si difieren, queda vacío.
+        if (openRecords.length > 0) {
+            if (els.responsableSelect) els.responsableSelect.value = commonLastPassValue(openRecords, 'preparado_supervisor');
+            if (els.equipoInput) els.equipoInput.value = commonLastPassValue(openRecords, 'preparado_equipo');
+            if (els.tipoSelect) els.tipoSelect.value = commonLastPassValue(openRecords, 'preparado_tipo');
+            if (els.observacionesInput) els.observacionesInput.value = commonLastPassValue(openRecords, 'preparado_observaciones');
+            if (els.turnoInput) els.turnoInput.value = commonLastPassValue(openRecords, 'preparado_turno') || calculateTurno();
+            return;
         }
 
         clearFormFields();
@@ -376,7 +383,8 @@
             .replace(/,/g, ';')
             .replace(/\s+/g, ' ')
             .trim();
-        const turno = String(els.turnoInput.value || calculateTurno()).trim() || calculateTurno();
+        const turno = calculateTurno();
+        els.turnoInput.value = turno;
         const ahora = TintoreriaUtils.formatProcessDateTime(new Date());
 
         if (!responsable) {
