@@ -60,6 +60,23 @@
         return current ? `${current},${newValue}` : newValue;
     }
 
+    // --- Clasificación de tipos ---
+    // Tipos parciales: solo doblan, NO completan el preparado (falta el cosido).
+    // Cualquier otro tipo (COSIDO, COS-REPROCESO y los combinados/legacy) cierra el preparado.
+    const PARTIAL_TIPOS = new Set(['DOBLADO', 'DOB-REPROCESO']);
+
+    function isClosingTipo(tipo) {
+        const normalized = String(tipo || '').trim().toUpperCase();
+        return normalized !== '' && !PARTIAL_TIPOS.has(normalized);
+    }
+
+    // ¿Ya tiene algún pase CERRADO cuyo tipo completa el preparado?
+    function hasClosedClosingPass(record) {
+        const tipos = parsePassValues(record.preparado_tipo);
+        const fines = parsePassValues(record.preparado_fin);
+        return tipos.some((tipo, i) => Boolean(fines[i] && fines[i].trim()) && isClosingTipo(tipo));
+    }
+
     // --- Estado visual de la tarjeta ---
 
     function getStatusInfo(record) {
@@ -460,11 +477,16 @@
             .map((recordId) => {
                 const record = findRecordById(recordId);
                 if (!record || !hasOpenPass(record)) return null;
+                // El pase que se cierra es el último (el que está abierto).
+                const closingPassTipo = lastPassValue(record, 'preparado_tipo');
+                // "Terminado" solo si este pase completa el preparado o ya había un
+                // pase de cierre previo. Si es solo DOBLADO/DOB-REPROCESO, queda EN PROCESO.
+                const terminado = isClosingTipo(closingPassTipo) || hasClosedClosingPass(record);
                 return {
                     id_registro: recordId,
                     changes: {
                         preparado_fin: appendPassValue(record.preparado_fin, ahora),
-                        preparado_estado: 'OK'
+                        preparado_estado: terminado ? 'OK' : 'PROG'
                     }
                 };
             })
